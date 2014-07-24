@@ -60,8 +60,8 @@ public class YahooStockApiLauncher {
 
 		input.close();
 
-		// deleteAllTable
+		// delete all table in AWS DynamoDB
+		// dbDynamoDBManager.deleteAllTable();
 
 	}
-
 }

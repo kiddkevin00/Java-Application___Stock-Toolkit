@@ -164,7 +164,24 @@ public class DynamoDBManager_v2 {
 	}
 
 	// TODO..
-	public void retreiveItem() {
+	public void retreiveItem(String tableName) {
+		if (Tables.doesTableExist(amazonDynamoDBClient, tableName)) {
+			System.out.println("Table " + tableName + " exists..");
 
+			// Scan items
+			ScanRequest scanRequest = new ScanRequest(tableName);
+			ScanResult scanResult = amazonDynamoDBClient.scan(scanRequest);
+			String PK = null;
+			int max = 0;
+			String maxapm = "am";
+			String time;
+			String apm;
+			// scan all the item in the table and then delete them by PK
+			for (Map<String, AttributeValue> item : scanResult.getItems()) {
+
+			}
+		} else {
+			System.out.println("The table doesn't exist!!");
+		}
 	}
 }
