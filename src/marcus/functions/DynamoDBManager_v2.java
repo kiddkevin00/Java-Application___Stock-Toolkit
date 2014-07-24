@@ -27,11 +27,11 @@ import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.dynamodbv2.util.Tables;
 
-public class DynamoDBManager {
+public class DynamoDBManager_v2 {
 
 	public AmazonDynamoDBClient amazonDynamoDBClient;
 
-	public DynamoDBManager() {
+	public DynamoDBManager_v2() {
 		// Get credential file in default location(/Users/Marcus/.aws), which is
 		// more convenience when using GitHub
 		AWSCredentials credentials = new ProfileCredentialsProvider()
@@ -161,6 +161,10 @@ public class DynamoDBManager {
 			itemMap.put(attributeName, valueString);
 		}
 		return itemMap;
+	}
+
+	// TODO..
+	public void retreiveItem() {
 
 	}
 }

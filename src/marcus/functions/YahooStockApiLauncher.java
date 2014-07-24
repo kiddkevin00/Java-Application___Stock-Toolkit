@@ -48,7 +48,7 @@ public class YahooStockApiLauncher {
 
 		// updateStockData.storeADataToDynamoDB(dbTable, stockData);
 
-		DynamoDBManager dbDynamoDBManager = new DynamoDBManager();
+		DynamoDBManager_v2 dbDynamoDBManager = new DynamoDBManager_v2();
 		if (dbTable != null && !dbTable.equals("")) {
 			dbDynamoDBManager.createTable(dbTable);
 		}

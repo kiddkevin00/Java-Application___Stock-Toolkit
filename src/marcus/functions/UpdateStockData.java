@@ -54,4 +54,8 @@ public class UpdateStockData {
 
 	}
 
+	public void getStockDataIn30Days() {
+
+	}
+
 }
