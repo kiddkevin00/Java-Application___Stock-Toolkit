@@ -47,7 +47,7 @@ public class DynamoDBManager {
 
 	public void createTable(String tableName) {
 		if (Tables.doesTableExist(amazonDynamoDBClient, tableName)) {
-			System.out.println("***Table already exist!!!");
+			System.out.println("AWS info : Table already exist!!!");
 		} else {
 			CreateTableRequest request = new CreateTableRequest()
 					.withTableName(tableName)
@@ -64,10 +64,10 @@ public class DynamoDBManager {
 
 			CreateTableResult result = amazonDynamoDBClient
 					.createTable(request);
-			System.out.println("Created Table : "
+			System.out.println("AWS info : Created Table : "
 					+ result.getTableDescription());
 			// (necessary) Wait for it to become active
-			System.out.println("Waiting for " + tableName
+			System.out.println("AWS info : Waiting for " + tableName
 					+ " to become ACTIVE...");
 			Tables.waitForTableToBecomeActive(amazonDynamoDBClient, tableName);
 
@@ -75,23 +75,24 @@ public class DynamoDBManager {
 
 	}
 
-	public void saveAItemToDynamoDB(String tableName, String key1,
-			String item1, String key2, String item2) {
-		if (!(item1.equals("") || item2.equals(""))) {
+	public void saveAItemToDynamoDB(String tableName, String[] keys,
+			String[] items) {
+		if (keys.length != 0) {
 			Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
-			item = this.generateAMap(key1, item1, key2, item2);
+			item = this.generateAMap(keys, items);
 			PutItemRequest putItemRequest = new PutItemRequest(tableName, item);
 			PutItemResult putItemResult = amazonDynamoDBClient
 					.putItem(putItemRequest);
-			System.out.println("Put Item Result: " + putItemResult);
+			System.out.println("AWS info : Put Item Result: " + putItemResult);
 		}
 	}
 
-	public Map<String, AttributeValue> generateAMap(String key1, String item1,
-			String key2, String item2) {
+	public Map<String, AttributeValue> generateAMap(String[] keys,
+			String[] items) {
 		Map<String, AttributeValue> map = new HashMap<String, AttributeValue>();
-		map.put(key1, new AttributeValue(item1));
-		map.put(key2, new AttributeValue(item2));
+		for (int i = 0; i < keys.length; i++) {
+			map.put(keys[i], new AttributeValue(items[i]));
+		}
 		return map;
 
 	}
