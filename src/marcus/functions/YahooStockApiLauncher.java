@@ -18,11 +18,17 @@ public class YahooStockApiLauncher {
 	 */
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		System.out.println("If you want to search for a current stock's "
+		System.out.println("(1) If you want to search for a current stock's "
 				+ "information, please press 1");
-		System.out.println("If you want to search a stock from your "
+		System.out.println("(2) If you want to search a stock from your "
 				+ "database, please press 2");
-		int menuChoice = Integer.parseInt(input.nextLine());
+		// set default choice
+		int menuChoice = 1;
+		if (input.hasNextInt()) {
+			menuChoice = Integer.parseInt(input.nextLine());
+		} else {
+			input.nextLine();
+		}
 		DynamoDBManager_v2 dbDynamoDBManager = new DynamoDBManager_v2();
 		String dbTable = "stocks";
 
@@ -62,7 +68,7 @@ public class YahooStockApiLauncher {
 			System.out.println("Storing and updating your Database..");
 			// Primary Key: stockName
 			String[] keys = new String[] { "openPrice", "stockName",
-					"currentPrice", "tradeDate", "updatedTime" };
+					"currentPrice", "tradeDate", "updatedTime", "itemAddedTime" };
 			dbDynamoDBManager.saveAItemToDynamoDB(dbTable, keys, stockData);
 			System.out.println("Update successfully");
 			break;
@@ -81,8 +87,6 @@ public class YahooStockApiLauncher {
 								foundStock.get("stockName").length() - 1));
 				System.out
 						.println("open price: " + foundStock.get("openPrice"));
-				System.out.println("stock name : "
-						+ foundStock.get("stockName"));
 				System.out.println("price now: "
 						+ foundStock.get("currentPrice"));
 				System.out.println("trade date : "
@@ -94,6 +98,7 @@ public class YahooStockApiLauncher {
 		default:
 			break;
 		}
+
 		System.out.println("This is the end of the program");
 		input.close();
 

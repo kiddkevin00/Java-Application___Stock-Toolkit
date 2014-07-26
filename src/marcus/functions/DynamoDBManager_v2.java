@@ -1,6 +1,8 @@
 package marcus.functions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,24 +129,29 @@ public class DynamoDBManager_v2 {
 
 	}
 
+	// list all "sorted" item within a specified table
 	public List<Map<String, String>> listAllItemInATable(String tableName) {
 		ScanRequest request = new ScanRequest().withTableName(tableName);
 		ScanResult result = amazonDynamoDBClient.scan(request);
 		List<Map<String, String>> items = new ArrayList<Map<String, String>>();
+		List<Map<String, AttributeValue>> sortedItems = sortItems(result
+				.getItems());
 		// return a list of result and also print them on the console
-		for (Map<String, AttributeValue> item : result.getItems()) {
+		for (Map<String, AttributeValue> item : sortedItems) {
 			items.add(printItem(item));
 		}
 		return items;
 
 	}
 
+	// transform AttributeValue to String type (also print it on the console)
 	private static Map<String, String> printItem(
 			Map<String, AttributeValue> attributeList) {
 		Map<String, String> itemMap = new HashMap<String, String>();
 		for (Map.Entry<String, AttributeValue> item : attributeList.entrySet()) {
 			String attributeName = item.getKey();
 			AttributeValue value = item.getValue();
+			// for debugging:
 			// System.out.println(attributeName
 			// + " "
 			// + (value.getS() == null ? "" : "S=[" + value.getS() + "]")
@@ -208,5 +215,18 @@ public class DynamoDBManager_v2 {
 			System.out.println("The table doesn't exist!!");
 		}
 		return null;
+	}
+
+	public List<Map<String, AttributeValue>> sortItems(
+			List<Map<String, AttributeValue>> unsortedItems) {
+		Comparator<Map<String, AttributeValue>> mapComparator = new Comparator<Map<String, AttributeValue>>() {
+			public int compare(Map<String, AttributeValue> m1,
+					Map<String, AttributeValue> m2) {
+				return (int) (Long.parseLong(m1.get("itemAddedTime").getS()) - Long
+						.parseLong(m2.get("itemAddedTime").getS()));
+			}
+		};
+		Collections.sort(unsortedItems, mapComparator);
+		return unsortedItems;
 	}
 }
