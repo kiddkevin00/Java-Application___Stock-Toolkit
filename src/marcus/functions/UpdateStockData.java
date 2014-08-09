@@ -12,8 +12,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @author Marcus
+ * Provide two kinds of stock info to retrieve from the current market for
+ * different use case
  * 
+ * @author Marcus
  */
 public class UpdateStockData {
 	public String[] getAStockData(String stockName) throws IOException {

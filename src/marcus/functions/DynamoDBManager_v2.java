@@ -31,6 +31,13 @@ import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.dynamodbv2.util.Tables;
 
+/**
+ * Store Stock info to DynamoDB. Provide several functions to communicate with
+ * the database
+ * 
+ * @author Marcus
+ * 
+ */
 public class DynamoDBManager_v2 {
 
 	public AmazonDynamoDBClient amazonDynamoDBClient;

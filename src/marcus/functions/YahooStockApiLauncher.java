@@ -14,6 +14,8 @@ import java.util.Scanner;
 public class YahooStockApiLauncher {
 
 	/**
+	 * Main Entry point for the whole program
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

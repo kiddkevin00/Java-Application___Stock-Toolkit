@@ -8,5 +8,5 @@ package marcus.functions;
  * 
  */
 public class PredictPriceAlgorithm {
-
+	// futrue work..
 }
